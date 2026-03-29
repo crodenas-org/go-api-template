@@ -59,7 +59,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Swagger UI served at `/docs`
 - Makefile: `make docs` if generation is needed
 
-### Step 7 — MCP Server
+### ✅ Step 7 — MCP Server
 - Companion MCP server that exposes app functionality as tools
 - Co-located in this repo under `cmd/mcp/`
 - Makefile: `make run-mcp`
