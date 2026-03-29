@@ -42,7 +42,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Middleware tests
 - Makefile: `make test`, `make test-verbose`
 
-### Step 4 — Database
+### ✅ Step 4 — Database
 - Postgres with [`pgx`](https://github.com/jackc/pgx)
 - Migrations with [`goose`](https://github.com/pressly/goose)
 - Repository pattern to keep DB logic out of handlers
