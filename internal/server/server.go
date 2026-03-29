@@ -4,26 +4,39 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	chimiddleware "github.com/go-chi/chi/v5/middleware"
+	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"hello-world-go/internal/handler"
+	appmiddleware "hello-world-go/internal/middleware"
 	"hello-world-go/internal/repository"
 )
 
-func New(db *pgxpool.Pool) http.Handler {
+func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 	r := chi.NewRouter()
 
-	r.Use(middleware.RequestID)
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer)
+	r.Use(chimiddleware.RequestID)
+	r.Use(chimiddleware.Logger)
+	r.Use(chimiddleware.Recoverer)
 
+	// Public routes
 	r.Get("/hello", handler.Hello)
 
-	itemHandler := handler.NewItemHandler(repository.NewItemRepository(db))
-	r.Get("/items", itemHandler.List)
-	r.Post("/items", itemHandler.Create)
-	r.Get("/items/{id}", itemHandler.GetByID)
+	// Authenticated routes
+	r.Group(func(r chi.Router) {
+		r.Use(appmiddleware.Authenticate(verifier))
+
+		itemHandler := handler.NewItemHandler(repository.NewItemRepository(db))
+		r.Get("/items", itemHandler.List)
+		r.Get("/items/{id}", itemHandler.GetByID)
+
+		// Role-protected routes
+		r.Group(func(r chi.Router) {
+			r.Use(appmiddleware.RequireRole("items.write"))
+			r.Post("/items", itemHandler.Create)
+		})
+	})
 
 	return r
 }
