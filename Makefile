@@ -1,4 +1,4 @@
-.PHONY: run build clean test test-verbose migrate-up migrate-down migrate-status docs
+.PHONY: run build clean test test-verbose migrate-up migrate-down migrate-status docs run-mcp
 
 SWAG=$(shell go env GOPATH)/bin/swag
 
@@ -21,6 +21,9 @@ test-verbose:
 	go test -v ./...
 
 GOOSE=$(shell go env GOPATH)/bin/goose
+
+run-mcp:
+	go run ./cmd/mcp
 
 docs:
 	$(SWAG) init -g cmd/api/main.go --output docs

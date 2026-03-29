@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "hello-world-go": {
+      "command": "go",
+      "args": ["run", "./cmd/mcp"],
+      "cwd": "/Users/rodenas/projects/hello-world-go"
+    }
+  }
+}
