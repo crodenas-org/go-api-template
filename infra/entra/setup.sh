@@ -68,6 +68,11 @@ az rest --method PATCH \
     }
   }'
 
+echo "==> Setting access token version to v2.0"
+az rest --method PATCH \
+  --uri "https://graph.microsoft.com/v1.0/applications(appId='$APP_ID')" \
+  --body '{"api": {"requestedAccessTokenVersion": 2}}'
+
 echo "==> Setting Application ID URI and exposing API scope"
 az rest --method PATCH \
   --uri "https://graph.microsoft.com/v1.0/applications(appId='$APP_ID')" \

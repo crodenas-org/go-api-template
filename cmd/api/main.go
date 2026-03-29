@@ -6,7 +6,7 @@
 // @securitydefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
-// @description Get a token: az account get-access-token --tenant a38e45e7-9d8c-49c2-b524-4f1ece71c53f --scope "api://88178697-78b9-4276-a9e2-a8ad08252caf/.default" --query accessToken -o tsv
+// @description Type "Bearer " followed by your token. Get a token via: az account get-access-token --tenant a38e45e7-9d8c-49c2-b524-4f1ece71c53f --scope "api://88178697-78b9-4276-a9e2-a8ad08252caf/.default" --query accessToken -o tsv
 
 package main
 
