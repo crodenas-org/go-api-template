@@ -8,7 +8,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - OpenAPI/Swagger docs served from the app
 - MCP server companion
 - GitHub Actions CI/CD pipeline
-- Containerized deployment on AWS ECS
+- Containerized deployment (Docker)
 - Tests where they add real value
 - Makefile targets grown alongside the app
 
@@ -64,13 +64,13 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Co-located in this repo under `cmd/mcp/`
 - Makefile: `make run-mcp`
 
-### Step 8 — Containerize
+### ✅ Step 8 — Containerize
 - `Dockerfile` (multi-stage build)
 - `docker-compose.yml` for local dev (app + Postgres)
-- Makefile: `make docker-build`, `make docker-up`, `make docker-down`
+- `db/init-local.sh` — compose Postgres init (passwords from `.env.compose`)
+- Makefile: `make docker-build`, `make docker-up`, `make docker-down`, `make docker-migrate`
 
-### Step 9 — GitHub Actions + AWS ECS
-- CI: lint, test, build, push image to ECR
-- CD: deploy to ECS on merge to main
+### Step 9 — GitHub Actions CI
+- CI: lint, test, build, push image
 - Self-hosted runner containers (consistent with other projects)
 - Makefile: `make lint`

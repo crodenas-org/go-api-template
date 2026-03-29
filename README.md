@@ -7,6 +7,7 @@ A production-template Go REST API built incrementally. See [PLAN.md](PLAN.md) fo
 - Go 1.22+
 - PostgreSQL (see setup below)
 - `goose` — `go install github.com/pressly/goose/v3/cmd/goose@latest`
+- Docker (for containerized local dev)
 
 ## Setup
 
@@ -38,6 +39,15 @@ MCP_ADDR=:8081          # optional, default :8081
 make run
 ```
 
+## Docker
+
+Runs the API in a container, connecting to the database configured in `.env`.
+
+```bash
+make docker-up    # build image and start in background
+make docker-down  # stop
+```
+
 ## API Docs
 
 Swagger UI is available at `http://localhost:8080/docs/index.html` when the server is running.
@@ -56,10 +66,13 @@ make docs
 | `make clean` | Remove compiled binaries |
 | `make test` | Run all tests |
 | `make test-verbose` | Run tests with verbose output |
-| `make migrate-up` | Apply pending migrations |
-| `make migrate-down` | Roll back last migration |
-| `make migrate-status` | Show migration status |
+| `make migrate-up` | Apply pending migrations (homelab DB) |
+| `make migrate-down` | Roll back last migration (homelab DB) |
+| `make migrate-status` | Show migration status (homelab DB) |
 | `make docs` | Regenerate OpenAPI spec from annotations |
+| `make docker-build` | Build Docker image |
+| `make docker-up` | Start app via compose |
+| `make docker-down` | Stop compose services |
 
 ## API
 

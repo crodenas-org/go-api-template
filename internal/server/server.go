@@ -22,8 +22,12 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 	r.Use(chimiddleware.Logger)
 	r.Use(chimiddleware.Recoverer)
 
-	// Docs — Swagger UI with Azure AD OAuth2
-	r.Get("/docs/*", httpswagger.Handler())
+	// Docs — Swagger UI (BaseLayout hides the Explore bar)
+	r.Get("/docs/*", httpswagger.Handler(
+		httpswagger.UIConfig(map[string]string{
+			"layout": `"BaseLayout"`,
+		}),
+	))
 
 	// Public routes
 	r.Get("/hello", handler.Hello)
