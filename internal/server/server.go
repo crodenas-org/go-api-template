@@ -15,7 +15,7 @@ import (
 	"hello-world-go/internal/repository"
 )
 
-func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier, clientID string) http.Handler {
+func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(chimiddleware.RequestID)
@@ -23,11 +23,7 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier, clientID string) http
 	r.Use(chimiddleware.Recoverer)
 
 	// Docs — Swagger UI with Azure AD OAuth2
-	r.Get("/docs/*", httpswagger.Handler(
-		httpswagger.UIConfig(map[string]string{
-			"initOAuth": `{"clientId": "` + clientID + `", "scopes": "api://` + clientID + `/.default"}`,
-		}),
-	))
+	r.Get("/docs/*", httpswagger.Handler())
 
 	// Public routes
 	r.Get("/hello", handler.Hello)
