@@ -37,7 +37,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Centralized error handling
 - Makefile: no new targets needed yet
 
-### Step 3 — Tests
+### ✅ Step 3 — Tests
 - Handler tests using stdlib `net/http/httptest`
 - Middleware tests
 - Makefile: `make test`, `make test-verbose`
