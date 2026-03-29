@@ -31,7 +31,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
   ```
 - Makefile: no new targets needed yet
 
-### Step 2 — Middleware
+### ✅ Step 2 — Middleware
 - Request logging (method, path, status, latency)
 - Request ID generation
 - Centralized error handling
