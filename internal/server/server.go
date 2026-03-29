@@ -25,7 +25,7 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier, clientID string) http
 	// Docs — Swagger UI with Azure AD OAuth2
 	r.Get("/docs/*", httpswagger.Handler(
 		httpswagger.UIConfig(map[string]string{
-			"initOAuth": `{"clientId": "` + clientID + `", "scopes": "api://` + clientID + `/.default", "usePkceWithAuthorizationCodeGrant": true}`,
+			"initOAuth": `{"clientId": "` + clientID + `", "scopes": "api://` + clientID + `/.default"}`,
 		}),
 	))
 

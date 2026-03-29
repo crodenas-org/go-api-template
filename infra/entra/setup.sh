@@ -55,10 +55,18 @@ echo "==> Getting current user object ID"
 USER_OBJECT_ID=$(az ad signed-in-user show --query id -o tsv)
 echo "    User object ID: $USER_OBJECT_ID"
 
-echo "==> Configuring SPA redirect URI for Swagger UI OAuth2"
+echo "==> Configuring redirect URI and implicit flow for Swagger UI OAuth2"
 az rest --method PATCH \
   --uri "https://graph.microsoft.com/v1.0/applications(appId='$APP_ID')" \
-  --body '{"spa": {"redirectUris": ["http://localhost:8080/docs/oauth2-redirect.html"]}}'
+  --body '{
+    "web": {
+      "redirectUris": ["http://localhost:8080/docs/oauth2-redirect.html"],
+      "implicitGrantSettings": {
+        "enableAccessTokenIssuance": true,
+        "enableIdTokenIssuance": false
+      }
+    }
+  }'
 
 echo "==> Setting Application ID URI and exposing API scope"
 az rest --method PATCH \
