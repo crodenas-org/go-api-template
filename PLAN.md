@@ -48,7 +48,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Repository pattern to keep DB logic out of handlers
 - Makefile: `make migrate-up`, `make migrate-down`, `make migrate-status`
 
-### Step 5 — MS OAuth2 / Azure AD Roles
+### ✅ Step 5 — MS OAuth2 / Azure AD Roles
 - OIDC authentication via Azure AD
 - App roles mapped to middleware-enforced access control
 - Same conceptual flow as FastAPI + `fastapi-azure-auth`
