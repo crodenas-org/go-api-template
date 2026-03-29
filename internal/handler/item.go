@@ -28,7 +28,7 @@ func NewItemHandler(repo *repository.ItemRepository) *ItemHandler {
 // @Produce      json
 // @Success      200  {array}   model.Item
 // @Failure      500  {string}  string
-// @Security     BearerAuth
+// @Security     OAuth2 [api://88178697-78b9-4276-a9e2-a8ad08252caf/.default]
 // @Router       /items [get]
 func (h *ItemHandler) List(w http.ResponseWriter, r *http.Request) {
 	items, err := h.repo.List(r.Context())
@@ -62,7 +62,7 @@ type CreateRequest struct {
 // @Failure      400   {string}  string
 // @Failure      403   {string}  string
 // @Failure      500   {string}  string
-// @Security     BearerAuth
+// @Security     OAuth2 [api://88178697-78b9-4276-a9e2-a8ad08252caf/.default]
 // @Router       /items [post]
 func (h *ItemHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var req CreateRequest
@@ -92,7 +92,7 @@ func (h *ItemHandler) Create(w http.ResponseWriter, r *http.Request) {
 // @Failure      400  {string}  string
 // @Failure      404  {string}  string
 // @Failure      500  {string}  string
-// @Security     BearerAuth
+// @Security     OAuth2 [api://88178697-78b9-4276-a9e2-a8ad08252caf/.default]
 // @Router       /items/{id} [get]
 func (h *ItemHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)

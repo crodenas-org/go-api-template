@@ -3,10 +3,10 @@
 // @description     A production-template Go REST API.
 // @host            localhost:8080
 // @BasePath        /
-// @securityDefinitions.apikey BearerAuth
-// @in header
-// @name Authorization
-// @description Enter: Bearer <token>
+// @securityDefinitions.oauth2.authorizationCode OAuth2
+// @authorizationurl https://login.microsoftonline.com/a38e45e7-9d8c-49c2-b524-4f1ece71c53f/oauth2/v2.0/authorize
+// @tokenUrl         https://login.microsoftonline.com/a38e45e7-9d8c-49c2-b524-4f1ece71c53f/oauth2/v2.0/token
+// @scope.api://88178697-78b9-4276-a9e2-a8ad08252caf/.default Access the API
 
 package main
 
@@ -65,7 +65,7 @@ func main() {
 	})
 	log.Println("OIDC provider initialized")
 
-	srv := server.New(db, verifier)
+	srv := server.New(db, verifier, clientID)
 
 	log.Println("Listening on :8080")
 	log.Fatal(http.ListenAndServe(":8080", srv))
