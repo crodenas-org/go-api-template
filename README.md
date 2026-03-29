@@ -4,10 +4,10 @@ A production-template Go REST API built incrementally. See [PLAN.md](PLAN.md) fo
 
 ## Requirements
 
-- Go 1.22+
+- Go 1.25+
 - PostgreSQL (see setup below)
 - `goose` — `go install github.com/pressly/goose/v3/cmd/goose@latest`
-- Docker (for containerized local dev)
+- Docker or Podman (for containerized local dev)
 
 ## Setup
 
@@ -30,6 +30,8 @@ Create a `.env` file in the project root:
 ```env
 DATABASE_URL=postgres://hw_app:<password>@<host>:5432/hello_world_go
 MIGRATION_URL=postgres://hw_admin:<password>@<host>:5432/hello_world_go
+AZURE_TENANT_ID=<tenant-id>
+AZURE_CLIENT_ID=<client-id>
 MCP_ADDR=:8081          # optional, default :8081
 ```
 
@@ -39,13 +41,16 @@ MCP_ADDR=:8081          # optional, default :8081
 make run
 ```
 
-## Docker
+## Docker / Podman
 
 Runs the API in a container, connecting to the database configured in `.env`.
 
 ```bash
 make docker-up    # build image and start in background
 make docker-down  # stop
+
+make podman-up    # same, using podman
+make podman-down
 ```
 
 ## API Docs
@@ -71,8 +76,11 @@ make docs
 | `make migrate-status` | Show migration status (homelab DB) |
 | `make docs` | Regenerate OpenAPI spec from annotations |
 | `make docker-build` | Build Docker image |
-| `make docker-up` | Start app via compose |
-| `make docker-down` | Stop compose services |
+| `make docker-up` | Start app via docker compose |
+| `make docker-down` | Stop docker compose services |
+| `make podman-build` | Build image with podman |
+| `make podman-up` | Start app via podman compose |
+| `make podman-down` | Stop podman compose services |
 
 ## API
 
@@ -105,13 +113,17 @@ curl http://localhost:8080/items/999
 
 ```
 cmd/
-  api/            # main entrypoint
+  api/            # REST API entrypoint
+  mcp/            # MCP SSE server entrypoint
 db/
   migrations/     # goose SQL migrations
   setup.sql       # one-time DB and user setup
 internal/
   handler/        # HTTP handlers
+  middleware/     # auth and role enforcement
   model/          # shared data types
   repository/     # database queries
-  server/         # router and middleware setup
+  server/         # router setup
+infra/
+  entra/          # Azure app registration scripts
 ```

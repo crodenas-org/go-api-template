@@ -65,10 +65,10 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Makefile: `make run-mcp`
 
 ### ✅ Step 8 — Containerize
-- `Dockerfile` (multi-stage build)
-- `docker-compose.yml` for local dev (app + Postgres)
-- `db/init-local.sh` — compose Postgres init (passwords from `.env.compose`)
-- Makefile: `make docker-build`, `make docker-up`, `make docker-down`, `make docker-migrate`
+- `Dockerfile` (multi-stage build, golang:1.25-alpine)
+- `docker-compose.yml` — app connects to external DB via `.env`
+- Docker and Podman targets
+- Makefile: `make docker-build`, `make docker-up`, `make docker-down`, `make podman-*`
 
 ### Step 9 — GitHub Actions CI
 - CI: lint, test, build, push image
