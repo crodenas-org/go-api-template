@@ -54,7 +54,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - Same conceptual flow as FastAPI + `fastapi-azure-auth`
 - Makefile: no new targets needed yet
 
-### Step 6 — API Docs
+### ✅ Step 6 — API Docs
 - OpenAPI spec (hand-authored or generated)
 - Swagger UI served at `/docs`
 - Makefile: `make docs` if generation is needed
