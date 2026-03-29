@@ -59,9 +59,9 @@ func main() {
 		log.Fatalf("failed to initialize OIDC provider: %v", err)
 	}
 
-	// Azure access tokens use "api://<clientID>" as the audience
+	// v2.0 tokens use the client ID UUID as audience (not api:// prefixed)
 	verifier := provider.Verifier(&oidc.Config{
-		ClientID: fmt.Sprintf("api://%s", clientID),
+		ClientID: clientID,
 	})
 	log.Println("OIDC provider initialized")
 
