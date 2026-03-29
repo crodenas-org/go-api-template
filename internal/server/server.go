@@ -3,11 +3,13 @@ package server
 import (
 	"net/http"
 
+	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
-	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/jackc/pgx/v5/pgxpool"
+	httpswagger "github.com/swaggo/http-swagger/v2"
 
+	_ "hello-world-go/docs"
 	"hello-world-go/internal/handler"
 	appmiddleware "hello-world-go/internal/middleware"
 	"hello-world-go/internal/repository"
@@ -19,6 +21,9 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 	r.Use(chimiddleware.RequestID)
 	r.Use(chimiddleware.Logger)
 	r.Use(chimiddleware.Recoverer)
+
+	// Docs
+	r.Get("/docs/*", httpswagger.Handler())
 
 	// Public routes
 	r.Get("/hello", handler.Hello)

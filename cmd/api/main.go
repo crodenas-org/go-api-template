@@ -1,3 +1,13 @@
+// @title           hello-world-go API
+// @version         1.0
+// @description     A production-template Go REST API.
+// @host            localhost:8080
+// @BasePath        /
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Enter: Bearer <token>
+
 package main
 
 import (

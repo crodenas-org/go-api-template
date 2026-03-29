@@ -37,6 +37,15 @@ MIGRATION_URL=postgres://hw_admin:<password>@<host>:5432/hello_world_go
 make run
 ```
 
+## API Docs
+
+Swagger UI is available at `http://localhost:8080/docs/index.html` when the server is running.
+
+Regenerate after changing handler annotations:
+```bash
+make docs
+```
+
 ## Make Targets
 
 | Target | Description |
@@ -49,6 +58,7 @@ make run
 | `make migrate-up` | Apply pending migrations |
 | `make migrate-down` | Roll back last migration |
 | `make migrate-status` | Show migration status |
+| `make docs` | Regenerate OpenAPI spec from annotations |
 
 ## API
 
