@@ -20,7 +20,7 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - `main.go` with a single `GET /hello` endpoint (stdlib `net/http`)
 - `go.mod`, `.gitignore`, `Makefile` (run, build, clean)
 
-### Step 1 — Routing & Package Structure
+### ✅ Step 1 — Routing & Package Structure
 - Introduce [chi](https://github.com/go-chi/chi) router
 - Restructure into a proper package layout:
   ```
