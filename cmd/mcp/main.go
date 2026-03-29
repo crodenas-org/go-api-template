@@ -111,7 +111,14 @@ func main() {
 		},
 	)
 
-	if err := server.ServeStdio(s); err != nil {
+	addr := os.Getenv("MCP_ADDR")
+	if addr == "" {
+		addr = ":8081"
+	}
+
+	sseServer := server.NewSSEServer(s, server.WithBaseURL("http://"+addr))
+	log.Printf("MCP SSE server listening on %s", addr)
+	if err := sseServer.Start(addr); err != nil {
 		log.Fatalf("MCP server error: %v", err)
 	}
 }

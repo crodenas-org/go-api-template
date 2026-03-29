@@ -1,9 +1,8 @@
 {
   "mcpServers": {
     "hello-world-go": {
-      "command": "go",
-      "args": ["run", "./cmd/mcp"],
-      "cwd": "/Users/rodenas/projects/hello-world-go"
+      "type": "sse",
+      "url": "http://localhost:8081/sse"
     }
   }
 }

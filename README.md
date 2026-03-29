@@ -29,6 +29,7 @@ Create a `.env` file in the project root:
 ```env
 DATABASE_URL=postgres://hw_app:<password>@<host>:5432/hello_world_go
 MIGRATION_URL=postgres://hw_admin:<password>@<host>:5432/hello_world_go
+MCP_ADDR=:8081          # optional, default :8081
 ```
 
 **3. Run**
