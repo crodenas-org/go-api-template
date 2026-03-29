@@ -1,4 +1,4 @@
-.PHONY: run build clean
+.PHONY: run build clean test test-verbose
 
 run:
 	go run ./cmd/api
@@ -8,3 +8,9 @@ build:
 
 clean:
 	rm -rf bin/
+
+test:
+	go test ./...
+
+test-verbose:
+	go test -v ./...
