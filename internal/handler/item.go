@@ -23,10 +23,11 @@ func NewItemHandler(repo *repository.ItemRepository) *ItemHandler {
 
 // List godoc
 // @Summary      List items
-// @Description  Returns all items
+// @Description  Returns all items. Requires items.read role.
 // @Tags         items
 // @Produce      json
 // @Success      200  {array}   model.Item
+// @Failure      403  {string}  string
 // @Failure      500  {string}  string
 // @Security     BearerAuth
 // @Router       /items [get]
@@ -84,12 +85,13 @@ func (h *ItemHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 // GetByID godoc
 // @Summary      Get an item
-// @Description  Returns a single item by ID
+// @Description  Returns a single item by ID. Requires items.read role.
 // @Tags         items
 // @Produce      json
 // @Param        id   path      int  true  "Item ID"
 // @Success      200  {object}  model.Item
 // @Failure      400  {string}  string
+// @Failure      403  {string}  string
 // @Failure      404  {string}  string
 // @Failure      500  {string}  string
 // @Security     BearerAuth

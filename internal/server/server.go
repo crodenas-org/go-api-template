@@ -33,10 +33,13 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 		r.Use(appmiddleware.Authenticate(verifier))
 
 		itemHandler := handler.NewItemHandler(repository.NewItemRepository(db))
-		r.Get("/items", itemHandler.List)
-		r.Get("/items/{id}", itemHandler.GetByID)
 
-		// Role-protected routes
+		r.Group(func(r chi.Router) {
+			r.Use(appmiddleware.RequireRole("items.read"))
+			r.Get("/items", itemHandler.List)
+			r.Get("/items/{id}", itemHandler.GetByID)
+		})
+
 		r.Group(func(r chi.Router) {
 			r.Use(appmiddleware.RequireRole("items.write"))
 			r.Post("/items", itemHandler.Create)
