@@ -18,7 +18,11 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>hello-world-go</h1>
+        <h1>
+          <a href="https://github.com/crodenas-org/go-api-template" target="_blank" rel="noreferrer">
+            hello-world-go
+          </a>
+        </h1>
         <div>
           {isAuthenticated ? (
             <>
