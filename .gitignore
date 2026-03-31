@@ -2,3 +2,8 @@ bin/
 hello-world-go
 .env
 docs/
+
+# Frontend
+web/node_modules/
+web/dist/
+web/.env.local

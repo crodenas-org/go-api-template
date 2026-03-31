@@ -74,3 +74,11 @@ A production-template Go REST API built incrementally. Each step is a self-conta
 - CI: lint, test, build, push image
 - Self-hosted runner containers (consistent with other projects)
 - Makefile: `make lint`
+
+### Step 10 — React Frontend (POC)
+- Vite + React + TypeScript in `web/` subdirectory
+- MSAL.js authentication (separate Azure SPA app registration)
+- Items list and create UI backed by the Go API
+- nginx container serving the built React bundle
+- CORS already configured on the API (Step 10 prep done in Step 8.5)
+- New Azure app registration for the SPA client (`infra/entra/setup-spa.sh`)

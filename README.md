@@ -31,8 +31,8 @@ Create a `.env` file in the project root:
 DATABASE_URL=postgres://hw_app:<password>@<host>:5432/hello_world_go
 MIGRATION_URL=postgres://hw_admin:<password>@<host>:5432/hello_world_go
 AZURE_TENANT_ID=<tenant-id>
-AZURE_CLIENT_ID=<client-id>
-MCP_ADDR=:8081          # optional, default :8081
+AZURE_CLIENT_ID=<api-client-id>      # API app registration
+MCP_ADDR=:8081                        # optional, default :8081
 ```
 
 **3. Run**

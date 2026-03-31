@@ -6,6 +6,7 @@ import (
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	"github.com/jackc/pgx/v5/pgxpool"
 	httpswagger "github.com/swaggo/http-swagger/v2"
 
@@ -21,6 +22,14 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 	r.Use(chimiddleware.RequestID)
 	r.Use(chimiddleware.Logger)
 	r.Use(chimiddleware.Recoverer)
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins: []string{
+			"http://localhost:5173", // Vite dev server
+		},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{"Authorization", "Content-Type"},
+		MaxAge:         300,
+	}))
 
 	// Docs — Swagger UI (BaseLayout hides the Explore bar)
 	r.Get("/docs/*", httpswagger.Handler(
