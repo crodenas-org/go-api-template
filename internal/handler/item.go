@@ -83,6 +83,85 @@ func (h *ItemHandler) Create(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(item)
 }
 
+// UpdateRequest is the request body for updating an item.
+type UpdateRequest struct {
+	Name string `json:"name" example:"updated name"`
+}
+
+// Update godoc
+// @Summary      Update an item
+// @Description  Updates an item's name. Requires items.write role.
+// @Tags         items
+// @Accept       json
+// @Produce      json
+// @Param        id    path      int            true  "Item ID"
+// @Param        item  body      UpdateRequest  true  "Updated fields"
+// @Success      200   {object}  model.Item
+// @Failure      400   {string}  string
+// @Failure      403   {string}  string
+// @Failure      404   {string}  string
+// @Failure      500   {string}  string
+// @Security     BearerAuth
+// @Router       /items/{id} [put]
+func (h *ItemHandler) Update(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
+	if err != nil {
+		http.Error(w, "invalid id", http.StatusBadRequest)
+		return
+	}
+
+	var req UpdateRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.Name == "" {
+		http.Error(w, "name is required", http.StatusBadRequest)
+		return
+	}
+
+	item, err := h.repo.Update(r.Context(), id, req.Name)
+	if errors.Is(err, pgx.ErrNoRows) {
+		http.Error(w, "item not found", http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		http.Error(w, "failed to update item", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(item)
+}
+
+// Delete godoc
+// @Summary      Delete an item
+// @Description  Deletes an item by ID. Requires items.write role.
+// @Tags         items
+// @Param        id   path      int  true  "Item ID"
+// @Success      204  {string}  string
+// @Failure      400  {string}  string
+// @Failure      403  {string}  string
+// @Failure      404  {string}  string
+// @Failure      500  {string}  string
+// @Security     BearerAuth
+// @Router       /items/{id} [delete]
+func (h *ItemHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
+	if err != nil {
+		http.Error(w, "invalid id", http.StatusBadRequest)
+		return
+	}
+
+	err = h.repo.Delete(r.Context(), id)
+	if errors.Is(err, pgx.ErrNoRows) {
+		http.Error(w, "item not found", http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		http.Error(w, "failed to delete item", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
 // GetByID godoc
 // @Summary      Get an item
 // @Description  Returns a single item by ID. Requires items.read role.

@@ -38,6 +38,9 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 		}),
 	))
 
+	// Allow CORS preflight on all routes
+	r.Options("/*", func(w http.ResponseWriter, r *http.Request) {})
+
 	// Public routes
 	r.Get("/hello", handler.Hello)
 
@@ -56,6 +59,8 @@ func New(db *pgxpool.Pool, verifier *oidc.IDTokenVerifier) http.Handler {
 		r.Group(func(r chi.Router) {
 			r.Use(appmiddleware.RequireRole("items.write"))
 			r.Post("/items", itemHandler.Create)
+			r.Put("/items/{id}", itemHandler.Update)
+			r.Delete("/items/{id}", itemHandler.Delete)
 		})
 	})
 

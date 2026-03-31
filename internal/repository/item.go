@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"hello-world-go/internal/model"
@@ -50,4 +51,24 @@ func (r *ItemRepository) GetByID(ctx context.Context, id int64) (model.Item, err
 		id,
 	).Scan(&item.ID, &item.Name, &item.CreatedAt)
 	return item, err
+}
+
+func (r *ItemRepository) Update(ctx context.Context, id int64, name string) (model.Item, error) {
+	var item model.Item
+	err := r.db.QueryRow(ctx,
+		"UPDATE items SET name = $1 WHERE id = $2 RETURNING id, name, created_at",
+		name, id,
+	).Scan(&item.ID, &item.Name, &item.CreatedAt)
+	return item, err
+}
+
+func (r *ItemRepository) Delete(ctx context.Context, id int64) error {
+	result, err := r.db.Exec(ctx, "DELETE FROM items WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+	return nil
 }
